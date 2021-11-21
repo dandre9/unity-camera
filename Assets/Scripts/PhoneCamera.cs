@@ -12,7 +12,6 @@ public class PhoneCamera : MonoBehaviour
 
     [SerializeField] RawImage background;
     [SerializeField] AspectRatioFitter fit;
-    [SerializeField] Text infoText;
 
     private void Start()
     {
@@ -42,11 +41,7 @@ public class PhoneCamera : MonoBehaviour
 
         backCam.Play();
 
-        // infoText.text = background.rectTransform.localScale.x.ToString() + " / " + background.rectTransform.localScale.y.ToString();
-
         background.texture = backCam;
-
-        // infoText.text += " -- " + background.rectTransform.localScale.x.ToString() + " / " + background.rectTransform.localScale.y.ToString();
 
         camAvailable = true;
     }
@@ -56,25 +51,12 @@ public class PhoneCamera : MonoBehaviour
         if (!camAvailable)
             return;
 
-        // float ratio = (float)Screen.width / (float)Screen.height;
-        // fit.aspectRatio = ratio;
-
-        // infoText.text = fit.aspectRatio.ToString();
-
-        // float scaleY = backCam.videoVerticallyMirrored ? -1f : 1f;
-        background.rectTransform.localScale = new Vector3(scale, scale, scale);
-
         int orient = -backCam.videoRotationAngle;
         background.rectTransform.localEulerAngles = new Vector3(0, 0, orient);
 
-        background.rectTransform.sizeDelta = new Vector2(Screen.height, Screen.width);
-    }
-
-    public void ChangeScale(string plusOrMinus)
-    {
-        if (plusOrMinus == "plus")
-            scale += 0.1f;
+        if (orient == -90)
+            background.rectTransform.sizeDelta = new Vector2(Screen.height, Screen.width);
         else
-            scale -= 0.1f;
+            background.rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
     }
 }
